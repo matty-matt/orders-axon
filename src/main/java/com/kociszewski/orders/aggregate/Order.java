@@ -23,10 +23,12 @@ public class Order {
 
     @CommandHandler
     public Order(PlaceOrderCommand command) {
+        System.out.println("Calling COMMAND constructor");
         apply(new OrderPlacedEvent(command.getOrderId(), command.getProduct()));
     }
 
     protected Order() {
+        System.out.println("Calling PARAMLESS constructor");
     }
 
     @CommandHandler
@@ -42,12 +44,14 @@ public class Order {
 
     @EventSourcingHandler
     public void on(OrderPlacedEvent event) {
+        System.out.println(">>>>>> Handling OrderPlacedEvent: " + this);
         this.orderId = event.getOrderId();
         orderConfirmed = false;
     }
 
     @EventSourcingHandler
     public void on(OrderConfirmedEvent event) {
+        System.out.println(">>>>>> Handling OrderConfirmedEvent: " + this);
         orderConfirmed = true;
     }
 

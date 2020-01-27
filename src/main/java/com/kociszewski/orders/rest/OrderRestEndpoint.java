@@ -26,9 +26,9 @@ public class OrderRestEndpoint {
     @PostMapping("ship")
     public void shipOrder(@RequestBody Product product) {
         String orderId = UUID.randomUUID().toString();
-        commandGateway.send(new PlaceOrderCommand(orderId, product.getName()));
-        commandGateway.send(new ConfirmOrderCommand(orderId));
-        commandGateway.send(new ShipOrderCommand(orderId));
+        commandGateway.sendAndWait(new PlaceOrderCommand(orderId, product.getName()));
+        commandGateway.sendAndWait(new ConfirmOrderCommand(orderId));
+        commandGateway.sendAndWait(new ShipOrderCommand(orderId));
     }
 
     @GetMapping("orders")
